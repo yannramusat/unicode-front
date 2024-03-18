@@ -1,14 +1,16 @@
-import logo from '../assets/logo.svg';
-import '../styles/App.css';
 import Users from './Users';
+import Counter from './Counter';
+import '../styles/App.css'
 
 function App() {
-  return (<main>
-      <h1>Users</h1>
-      <div className="container">
+  return (
+    <main>
+      <div className="App">
         <Users />
+        <Counter />
       </div>
-    </main>);
+    </main>
+  );
 }
 
 export default App;

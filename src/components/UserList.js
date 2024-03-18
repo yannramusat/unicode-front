@@ -4,7 +4,7 @@ import UserListItem from './UserListItem';
 
 function UserList({ users, onDelete }) {
   return (
-  <ul className="user-list">
+  <ul className="list-group d-inline-block w-25">
     {users.map((user) => (
       <UserListItem
         key={user.id}

@@ -41,7 +41,10 @@ function Users() {
     <>
       {/* <UserForm onSubmit={handleOnSubmit} onError={handleOnError} /> */}
       {/* <ErrorList errors={errors} /> */}
-      <UserList users={users} onDelete={handleOnDelete} />
+      <div className="mt-5 px-3 py-4">
+        <h1 className="h1 display-1">Users</h1>
+        <UserList users={users} onDelete={handleOnDelete} />
+      </div>
     </>
   );
 }
