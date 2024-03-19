@@ -5,7 +5,7 @@ import '../styles/App.css'
 function App() {
   return (
     <main>
-      <div className="App">
+      <div className="container">
         <Users />
         <Counter />
       </div>

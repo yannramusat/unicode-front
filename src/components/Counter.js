@@ -8,7 +8,7 @@ const Counter = () => {
   const subtract = () => setcount((prev) => prev > 0 ? prev -1 : 0);
 
   return (
-    <div className="mt-5 px-3 py-4">
+    <div className="text-center mt-5 px-3 py-4">
       <h1 className="h1 display-1">Counter Component</h1>
       <h2 className="h1 display-1 mt-5 mb-3">{count}</h2>
       <div className="mt-5">
