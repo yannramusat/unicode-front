@@ -11,7 +11,14 @@ const statusButtonTextMapping = {
   done: 'Delete',
 };
 
-function UserListItem({ id, username, mail, onDelete }) {
+type UserListItemProps = {
+  id: number,
+  username: string,
+  mail: string,
+  onDelete: Function
+}
+
+function UserListItem({ id, username, mail, onDelete }: UserListItemProps) {
   const handleOnClick = () => {
     onDelete(id);
   };

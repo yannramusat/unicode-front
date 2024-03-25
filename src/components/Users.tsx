@@ -30,7 +30,7 @@ function Users() {
     await loadData();
   }; */
 
-  const handleOnDelete = async (id) => {
+  const handleOnDelete = async (id: number) => {
     await fetch(`http://localhost:3000/api/v1/users/${id}`, {
         method: 'DELETE' 
     });
