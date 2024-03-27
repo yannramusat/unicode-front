@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Downshift from 'downshift';
 import IngredientList from './IngredientList';
 import RecipeList from './RecipeList';
@@ -7,16 +7,17 @@ function IngredientSelector () {
   const [ingredients, setIngredients] = useState([])
   const [selectedIngredients, setSelectedIngredients] = useState([])
   const [bestRecipes, setBestRecipes] = useState([])
+  const [valueInput, setValueInput] = useState("")
 
   const inputOnChange = (event) => {
     if (event.target.value.length < 3) { return }
     fetchIngredients(event.target.value)
   }
-
-  const downshiftOnChange = (selectedIngredient) => {
+  const downshiftOnChange = (selectedIngredient, {clearSelection}) => {
     if (selectedIngredient) {
       //alert(`Your about to choose ${selectedIngredient.name} with id ${selectedIngredient.id} `);
       setSelectedIngredients([...selectedIngredients, selectedIngredient]);
+      clearSelection()
     } else {
       setIngredients([]);
     }
@@ -31,7 +32,7 @@ function IngredientSelector () {
 
   const handleOnDelete = async (id) => {
     setSelectedIngredients(
-      selectedIngredients.filter((item) => item.id != id)
+      selectedIngredients.filter((item) => item.id !== id)
     )
   };
 
@@ -40,7 +41,7 @@ function IngredientSelector () {
     const params = selectedIngredients.map( 
       (ingredient) => (`ingredients[]=${ingredient.id}`)
     ).join("&");
-    alert(`Querying ${recipesURL} with params ${params} `);
+    //alert(`Querying ${recipesURL} with params ${params} `);
     const response = await fetch(recipesURL+params)
     const data = await response.json();
     setBestRecipes(data);
@@ -51,12 +52,12 @@ function IngredientSelector () {
       <h3 className="h3 display-3">Your ingredients</h3> <br />
       <IngredientList ingredients={selectedIngredients} onDelete={handleOnDelete} />
       <Downshift onChange={downshiftOnChange} itemToString={item => (item ? item.name : '')}>
-      {({ selectedItem, getInputProps, getItemProps, highlightedIndex, isOpen, inputValue, getLabelProps }) => (
+      {({ selectedItem, getInputProps, getItemProps, highlightedIndex, isOpen, inputValue, getLabelProps, clearSelection }) => (
       <div style={{textAlign:'center'}}>
         <label style={{ margin: '1rem', display: 'block', fontSize: 20 }} {...getLabelProps()}>Add a new ingredient:</label>
         <input {...getInputProps({
           placeholder: "Search ingredients",
-          onChange: inputOnChange
+          onChange: inputOnChange,
         })} />
         {isOpen ? (
         <div className="downshift-dropdown"> {
@@ -81,7 +82,7 @@ function IngredientSelector () {
       )}
       </Downshift>
       <button className={`btn btn-primary`} style={{margin: 20}} onClick={findBestRecipes}>
-        Find the best recipes!
+        Find the best recipes for you!
       </button> <br />
       <RecipeList recipes={bestRecipes} />
     </div>
