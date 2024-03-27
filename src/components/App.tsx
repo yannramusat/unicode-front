@@ -5,17 +5,13 @@ import DownshiftTwo from './DownshiftTwo';
 import DownshiftThree from './DownshiftThree';
 import DownshiftFour from './DownshiftFour';
 import '../styles/App.css'
+import IngredientSelector from './IngredientSelector';
 
 function App() {
   return (
     <main>
       <div className="container">
-        <DownshiftOne />
-        <DownshiftTwo />
-        <DownshiftThree />
-        <DownshiftFour />
-        <Users />
-        <Counter />
+        <IngredientSelector />
       </div>
     </main>
   );
