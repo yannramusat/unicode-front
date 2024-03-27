@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import Downshift from 'downshift';
 import IngredientList from './IngredientList';
+import RecipeList from './RecipeList';
 
 function IngredientSelector () {
   const [ingredients, setIngredients] = useState([])
   const [selectedIngredients, setSelectedIngredients] = useState([])
+  const [bestRecipes, setBestRecipes] = useState([])
 
   const inputOnChange = (event) => {
     if (event.target.value.length < 3) { return }
@@ -33,14 +35,25 @@ function IngredientSelector () {
     )
   };
 
+  const findBestRecipes = async () => {
+    const recipesURL = `http://localhost:3000/recipes?`;
+    const params = selectedIngredients.map( 
+      (ingredient) => (`ingredients[]=${ingredient.id}`)
+    ).join("&");
+    alert(`Querying ${recipesURL} with params ${params} `);
+    const response = await fetch(recipesURL+params)
+    const data = await response.json();
+    setBestRecipes(data);
+  }
+
   return (
     <div className="container-fluid text-sm-center p-5 bg-light">
-      <h2 className="h3 display-3">Your ingredients</h2>
+      <h3 className="h3 display-3">Your ingredients</h3> <br />
       <IngredientList ingredients={selectedIngredients} onDelete={handleOnDelete} />
       <Downshift onChange={downshiftOnChange} itemToString={item => (item ? item.name : '')}>
       {({ selectedItem, getInputProps, getItemProps, highlightedIndex, isOpen, inputValue, getLabelProps }) => (
       <div style={{textAlign:'center'}}>
-        <label style={{ margin: '1rem', display: 'block' }} {...getLabelProps()}>Add a new ingredient:</label>
+        <label style={{ margin: '1rem', display: 'block', fontSize: 20 }} {...getLabelProps()}>Add a new ingredient:</label>
         <input {...getInputProps({
           placeholder: "Search ingredients",
           onChange: inputOnChange
@@ -66,7 +79,11 @@ function IngredientSelector () {
         ) : null}
       </div>
       )}
-    </Downshift>
+      </Downshift>
+      <button className={`btn btn-primary`} style={{margin: 20}} onClick={findBestRecipes}>
+        Find the best recipes!
+      </button> <br />
+      <RecipeList recipes={bestRecipes} />
     </div>
   )
 }
